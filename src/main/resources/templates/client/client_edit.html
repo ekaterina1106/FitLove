@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактировать клиента</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}" />
+</head>
+<body>
+<header>
+    <div th:insert="~{blocks/header.html :: header}"></div>
+</header>
+<h1>Редактировать клиента</h1>
+<form th:action="@{/clients/{id}(id=${client.id})}" th:object="${client}" method="post">
+    <div>
+        <label for="name">Имя:</label>
+        <input type="text" id="name" th:field="*{name}" required />
+    </div>
+    <div>
+        <label for="email">Email:</label>
+
+        <input type="email" id="email" th:field="*{email}" required />
+    </div>
+    <div>
+        <label for="phone">Телефон:</label>
+        <input type="text" id="phone" th:field="*{phone}" />
+    </div>
+    <div>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" th:field="*{password}" required />
+    </div>
+    <button type="submit">Сохранить изменения</button>
+    <a href="/clients">Назад</a>
+</form>
+</body>
+</html>
+

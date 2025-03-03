@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitlove Fitness Club</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}" />
+</head>
+<body>
+<header>
+    <div th:insert="~{blocks/header.html :: header}"></div>
+</header>
+
+<p sec:authorize="isAuthenticated()" class="custom-text">
+    Вы вошли как: <span th:text="${client.name}">Имя клиента</span>
+</p>
+
+
+<form action="/logout" method="post" style="display: inline;">
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+    <input type="submit" class="button exit-button" value="Выйти из личного кабинета">
+</form>
+
+<h2 style="text-align: center;">Мои предстоящие занятия</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Название занятия</th>
+        <th>Дата и день недели</th> <!-- Изменено на один заголовок -->
+        <th>Время</th>
+        <th>Инструктор</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="class : ${upcomingEnrollments}">
+        <td th:text="${class.name}"></td>
+        <td th:text="${class.classDate} + ' ' + ${dayOfWeek[weekDates.indexOf(class.classDate)]}"></td><!-- Объединение даты и дня недели -->
+        <td th:text="${class.startTime}"></td>
+        <td th:text="${class.instructor?.name}"></td>
+        <td>
+        <form th:action="@{/personalAccount/cancel}" method="post">
+            <input type="hidden" name="classId" th:value="${class.id}" />
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+            <button type="submit" class="button table-button">Отменить запись</button>
+        </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h2 style="text-align: center;">Мои прошедшие занятия</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Название занятия</th>
+        <th>Дата и день недели</th> <!-- Объединение заголовков -->
+        <th>Время</th>
+        <th>Инструктор</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="class, iterStat : ${pastEnrollments}">
+        <td th:text="${class.name}"></td>
+        <td th:text="${class.classDate} + ' ' + ${pastDaysOfWeek[pastDates.indexOf(class.classDate)]}"></td><!-- Объединение даты и дня недели для прошедших занятий -->
+        <td th:text="${class.startTime}"></td>
+        <td th:text="${class.instructor?.name}"></td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fitlove Fitness Club - Авторизация</title>
+<!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />-->
+  <link rel="stylesheet" th:href="@{/static/css/style.css}" />
+</head>
+<body>
+<header>
+  <div th:insert="~{blocks/header.html :: header}"></div>
+</header>
+
+<!-- Всплывающее сообщение -->
+<div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert" id="popupMessage">
+  <strong></strong> <span th:text="${successMessage}"></span>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="login-page">
+  <form action="/login" method="post" th:object="${client}">
+
+    <h1>Авторизация</h1>
+
+    <div class="form-group">
+      <label for="email">Эл. почта:</label>
+      <input type="email" id="email" name="username" th:value="${client != null ? client.email : ''}" class="form-control" required />
+      <div style="color: red" th:if="${emailError}" class="invalid-feedback">
+        <span th:text="${emailError}"></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Пароль:</label>
+      <input type="password" id="password" name="password" class="form-control" required />
+      <div style="color: red" th:if="${passwordError}" class="invalid-feedback">
+        <span th:text="${passwordError}"></span>
+      </div>
+    </div>
+
+    <div style="color: red" th:if="${errorMessage}">
+      <h2 th:text="${errorMessage}"></h2>
+    </div>
+
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+    <input type="submit" value="Вход" class="login-button">
+
+    <div class="login-links">
+      <a href="/registration">Зарегистрироваться</a>
+    </div>
+
+  </form>
+</div>
+
+<!-- Вставляем JavaScript для работы с Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+

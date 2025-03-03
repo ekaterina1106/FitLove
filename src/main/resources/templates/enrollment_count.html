@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitlove Fitness Club</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}" />
+</head>
+<body>
+<header>
+    <div th:insert="~{blocks/header.html :: header}"></div>
+</header>
+
+<p sec:authorize="isAuthenticated()" class="custom-text">
+    Вы вошли как: <span th:text="${client.name}">Имя клиента</span>
+</p>
+
+
+<form action="/logout" method="post" style="display: inline;">
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+    <input type="submit" class="button exit-button" value="Выйти из личного кабинета">
+</form>
+<br>
+<h2 style="text-align: center;">Записи на предстоящие занятия</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Название занятия</th>
+        <th>Дата</th>
+        <th>Время</th>
+        <th>Количество записей</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="class : ${upcomingClasses}">
+        <td th:text="${class.name}"></td>
+        <td th:text="${class.classDate} + ' ' + ${dayOfWeek[weekDates.indexOf(class.classDate)]}"></td>
+        <td th:text="${class.startTime}"></td>
+        <td th:text="${class.enrollmentCount}"></td>
+    </tr>
+
+    </tbody>
+</table>
+
+<h2 style="text-align: center;">Записи на прошедшие занятия</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Название занятия</th>
+        <th>Дата</th>
+        <th>Время</th>
+        <th>Количество записей</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="class : ${pastClasses}">
+        <td th:text="${class.name}"></td>
+        <td th:text="${class.classDate} + ' ' + ${pastDaysOfWeek[pastDates.indexOf(class.classDate)]}"></td>
+        <td th:text="${class.startTime}"></td>
+        <td th:text="${class.enrollmentCount}"></td>
+    </tr>
+
+    </tbody>
+</table>
+
+</body>
+</html>

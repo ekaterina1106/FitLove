@@ -1,0 +1,63 @@
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="header">
+    <div class="container main-container">
+        <ul class="header-page">
+
+
+
+            <!-- Главная страница доступна всем пользователям -->
+            <li class="header-page_li">
+                <a class="header-page-link" href="/main">
+                    <span class="header-page-text">Главная</span>
+                </a>
+            </li>
+
+            <!-- Страница Занятий НЕ отображается для пользователей с ролью USER -->
+            <li class="header-page_li" th:if="${client != null and client.isAdmin}">
+                <a class="header-page-link" href="/classes">
+                    <span class="header-page-text">Занятия</span>
+                </a>
+            </li>
+
+
+
+
+            <!-- Страница Инструкторов доступна только администраторам -->
+            <li class="header-page_li" th:if="${client != null and client.isAdmin}">
+                <a class="header-page-link" href="/instructors">
+                    <span class="header-page-text">Инструкторы</span>
+                </a>
+            </li>
+
+            <!-- Страница Расписания занятий доступна всем пользователям -->
+            <li class="header-page_li">
+                <a class="header-page-link" href="/schedule">
+                    <span class="header-page-text">Расписание занятий</span>
+                </a>
+            </li>
+
+            <!-- Страница Клиентов доступна только администраторам -->
+            <li class="header-page_li" th:if="${client != null and client.isAdmin}">
+                <a class="header-page-link" href="/clients">
+                    <span class="header-page-text">Клиенты</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Личный кабинет и Войти -->
+        <div class="header-button">
+            <div th:if="${client != null and client.isAdmin}">
+                <a class="header-page-text button" href="/enrollment_count">Записи на занятия</a>
+            </div>
+            <div th:if="${client != null and !client.isAdmin}">
+                <a class="header-page-text button" href="/personalAccount">Личный кабинет</a>
+            </div>
+            <div th:if="${client == null}">
+                <a class="header-page-text button" href="/login">Войти</a>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

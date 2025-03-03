@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список групповых занятий</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}" />
+</head>
+<body>
+<header>
+    <div th:insert="~{blocks/header.html :: header}"></div>
+</header>
+<h1>Список групповых занятий</h1>
+<a href="/classes/new" class="button exit-button">Добавить новое занятие</a>
+<table>
+    <thead>
+    <tr>
+        <th>Название</th>
+        <th>Описание</th>
+        <th>Дата</th>
+        <th>Время начала</th>
+        <th>Инструктор</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="groupClass : ${classes}">
+        <td th:text="${groupClass.name}"></td>
+        <td th:text="${groupClass.description}"></td>
+        <td th:text="${groupClass.classDate}"></td>
+        <td th:text="${groupClass.startTime}"></td>
+        <td th:text="${groupClass.instructor.name}"></td> <!-- Предполагаем, что у класса GroupClasses есть объект instructor -->
+        <td>
+            <div class="action-buttons">
+                <!-- Ссылка на редактирование -->
+                <a th:href="@{/classes/{id}/edit(id=${groupClass.id})}" class="button table-button">Редактировать</a>
+                <!-- Форма для удаления -->
+                <form th:action="@{/classes/{id}/delete(id=${groupClass.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="button table-button">Удалить</button>
+                </form>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+
+
+</body>
+</html>

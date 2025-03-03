@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Редактировать инструктора</title>
+  <link rel="stylesheet" th:href="@{/static/css/style.css}" />
+</head>
+<body>
+<header>
+  <div th:insert="~{blocks/header.html :: header}"></div>
+</header>
+<h1>Редактировать инструктора</h1>
+<form th:action="@{/instructors/{id}(id=${instructor.id})}" th:object="${instructor}" method="post" class="form-create-edit">
+  <div>
+    <label for="name">Имя:</label>
+    <input type="text" id="name" th:field="*{name}" required />
+  </div>
+  <button type="submit">Сохранить изменения</button>
+  <a href="/instructors">Назад</a>
+</form>
+</body>
+</html>

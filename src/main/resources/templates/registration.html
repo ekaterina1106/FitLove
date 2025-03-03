@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitlove Fitness Club</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}" />
+</head>
+<header>
+    <div th:insert="~{blocks/header.html :: header}"></div>
+</header>
+<body>
+<div class="login-page">
+
+    <form action="/registration" th:action="@{/registration}" method="post" th:object="${client}">
+
+        <h1>Регистрация</h1>
+
+        <div class="form-group">
+            <label>ФИО пользователя:</label>
+            <input type="text" th:field="*{name}"  th:value="${client.name}" class="form-control" required>
+            <div th:if="${nameError}" class="invalid-feedback" style="color: red">
+                <span th:text="${nameError}"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label>Номер телефона:</label>
+            <input type="text" id="phone" name="phone" class="form-control"
+                   required placeholder="+7 (___) ___-__-__"
+                   pattern="^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$"
+                   title="Введите номер в формате +7 (999) 999-99-99">
+
+        </div>
+
+
+        <div class="form-group">
+            <label>Эл. почта:</label>
+            <input type="email" th:field="*{email}" th:value="${client.email}" class="form-control" required>
+            <div th:if="${mailError != null}" class="invalid-feedback" style="color: red">
+                <span th:text="${mailError}"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Пароль:</label>
+            <input type="password" th:field="*{password}"  minlength="4" class="form-control" required>
+            <div th:if="${passwordError != null}" class="invalid-feedback" style="color: red">
+                <span th:text="${passwordError}"></span>
+            </div>
+        </div>
+
+        <div th:if="${errorMessage}" style="color: red;">
+            <h2 th:text="${errorMessage}"></h2>
+        </div>
+
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+        <input type="submit" value="Зарегистрироваться" class="login-button">
+
+        <div class="login-links">
+            <a href="/login">Уже есть аккаунт? Войти</a>
+        </div>
+
+
+
+    </form>
+</div>
+</body>
+</html>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const phoneInput = document.getElementById("phone");
+        const phoneError = document.getElementById("phoneError");
+
+        phoneInput.addEventListener("input", function (e) {
+            let value = phoneInput.value.replace(/\D/g, ""); // Удаляем все символы, кроме цифр
+            if (value.startsWith("7")) value = value.slice(1); // Удаляем лишнюю 7 в начале
+
+            let formatted = "+7 ";
+            if (value.length > 0) formatted += "(" + value.substring(0, 3);
+            if (value.length >= 4) formatted += ") " + value.substring(3, 6);
+            if (value.length >= 7) formatted += "-" + value.substring(6, 8);
+            if (value.length >= 9) formatted += "-" + value.substring(8, 10);
+
+            phoneInput.value = formatted;
+
+            // Валидация на соответствие маске
+            const regex = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
+            if (regex.test(phoneInput.value)) {
+                phoneInput.setCustomValidity("");
+                phoneError.style.display = "none";
+            } else {
+                phoneInput.setCustomValidity("Номер телефона неверен");
+                phoneError.style.display = "block";
+            }
+        });
+    });
+</script>
+
+
+
+
+
