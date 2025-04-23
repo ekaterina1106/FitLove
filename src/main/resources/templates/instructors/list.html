@@ -26,16 +26,29 @@
             <div class="action-buttons">
                 <!-- Кнопка редактирования -->
                 <a th:href="@{/instructors/{id}/edit(id=${instructor.id})}" class="button table-button">Редактировать</a>
+
                 <!-- Форма для удаления -->
                 <form th:action="@{/instructors/{id}/delete(id=${instructor.id})}" method="post" style="display:inline;">
                     <button type="submit" class="button table-button">Удалить</button>
                 </form>
+
+                <!-- Форма для блокировки/разблокировки в зависимости от состояния isBlocked -->
+                <div th:if="${instructor.isBlocked}">
+                    <!-- Если инструктор заблокирован, показываем кнопку разблокировки -->
+                    <form th:action="@{/instructors/{id}/unblock(id=${instructor.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="button table-button">Разблокировать</button>
+                    </form>
+                </div>
+                <div th:if="${!instructor.isBlocked}">
+                    <!-- Если инструктор не заблокирован, показываем кнопку блокировки -->
+                    <form th:action="@{/instructors/{id}/block(id=${instructor.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="button table-button">Заблокировать</button>
+                    </form>
+                </div>
             </div>
         </td>
     </tr>
     </tbody>
-
 </table>
-
 </body>
 </html>

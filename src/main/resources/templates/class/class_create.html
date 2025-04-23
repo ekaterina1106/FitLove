@@ -30,25 +30,26 @@
     </div>
 
 
-        <div>
+    <div>
         <label for="startTime">Время начала:</label>
         <select id="startTime" th:field="*{startTime}" required>
             <option value="" disabled selected>Выберите время</option>
             <option th:each="time : ${availableTimes}"
                     th:value="${time}"
-                    th:text="${time}"></option>
+                    th:text="${time}"
+                    th:selected="${time == groupClass.startTime}"></option>
         </select>
-
         <span th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}">Ошибка</span>
     </div>
 
     <div>
         <label for="instructor">Инструктор:</label>
-        <select id="instructor" th:field="*{instructor}" required>
+        <select id="instructor" th:field="*{instructor.id}" required>
             <option value="" disabled selected>Выберите инструктора</option>
             <option th:each="instructor : ${instructors}"
                     th:value="${instructor.id}"
-                    th:text="${instructor.name}"></option>
+                    th:text="${instructor.name}"
+                    th:selected="${instructor.id == groupClass.instructor.id}"></option>
         </select>
         <span th:if="${#fields.hasErrors('instructor')}" th:errors="*{instructor}">Ошибка</span>
     </div>
@@ -58,6 +59,7 @@
         <a href="/classes">Отмена</a>
     </div>
 </form>
+
 
 
 

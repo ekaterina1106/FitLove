@@ -3,7 +3,11 @@ package com.example.fitlove.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ClientDTO {
     private int id;
 
@@ -17,50 +21,18 @@ public class ClientDTO {
 
     @NotBlank(message = "Телефон обязателен")
     private String phone;
+    private final boolean blocked;
 
+    private boolean isBlocked;
 
-    // Конструкторы
-    public ClientDTO() {
-    }
-
-    public ClientDTO(int id, String name, String email, String phone, String role, String password) {
+    public ClientDTO(int id, String name, String email, String phone, boolean blocked) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.blocked = blocked;
     }
 
-    // Геттеры и сеттеры
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 
 }

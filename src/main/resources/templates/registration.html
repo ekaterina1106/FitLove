@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitlove Fitness Club</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" th:href="@{/static/css/style.css}" />
 </head>
 <header>
@@ -12,46 +13,56 @@
 <body>
 <div class="login-page">
 
-    <form action="/registration" th:action="@{/registration}" method="post" th:object="${client}">
+    <form action="/registration" th:action="@{/registration}" method="post" th:object="${clientDTO}">
 
         <h1>Регистрация</h1>
 
+        <!-- ФИО -->
         <div class="form-group">
             <label>ФИО пользователя:</label>
-            <input type="text" th:field="*{name}"  th:value="${client.name}" class="form-control" required>
-            <div th:if="${nameError}" class="invalid-feedback" style="color: red">
-                <span th:text="${nameError}"></span>
+            <input type="text" th:field="*{name}" class="form-control" required
+                   th:classappend="${#fields.hasErrors('name') ? ' is-invalid' : ''}">
+            <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback" style="color: red">
+                <span th:errors="*{name}"></span>
             </div>
         </div>
 
-
+        <!-- Номер телефона -->
         <div class="form-group">
             <label>Номер телефона:</label>
-            <input type="text" id="phone" name="phone" class="form-control"
+            <input type="text" th:field="*{phone}" class="form-control"
                    required placeholder="+7 (___) ___-__-__"
                    pattern="^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$"
-                   title="Введите номер в формате +7 (999) 999-99-99">
-
+                   title="Введите номер в формате +7 (999) 999-99-99"
+                   th:classappend="${#fields.hasErrors('phone') ? ' is-invalid' : ''}">
+            <div th:if="${#fields.hasErrors('phone')}" class="invalid-feedback" style="color: red">
+                <span th:errors="*{phone}"></span>
+            </div>
         </div>
 
-
+        <!-- Эл. почта -->
         <div class="form-group">
             <label>Эл. почта:</label>
-            <input type="email" th:field="*{email}" th:value="${client.email}" class="form-control" required>
-            <div th:if="${mailError != null}" class="invalid-feedback" style="color: red">
-                <span th:text="${mailError}"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Пароль:</label>
-            <input type="password" th:field="*{password}"  minlength="4" class="form-control" required>
-            <div th:if="${passwordError != null}" class="invalid-feedback" style="color: red">
-                <span th:text="${passwordError}"></span>
+            <input type="email" th:field="*{email}" class="form-control" required
+                   th:classappend="${#fields.hasErrors('email') ? ' is-invalid' : ''}">
+            <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback" style="color: red">
+                <span th:errors="*{email}"></span>
             </div>
         </div>
 
-        <div th:if="${errorMessage}" style="color: red;">
-            <h2 th:text="${errorMessage}"></h2>
+        <!-- Пароль -->
+        <div class="form-group">
+            <label>Пароль:</label>
+            <input type="password" th:field="*{password}" class="form-control" required
+                   th:classappend="${#fields.hasErrors('password') ? ' is-invalid' : ''}">
+            <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback" style="color: red">
+                <span th:errors="*{password}"></span>  <!-- Ошибки для поля password -->
+            </div>
+        </div>
+
+        <!-- Общее сообщение об ошибках -->
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <span th:text="${errorMessage}"></span>
         </div>
 
         <input type="hidden" name="_csrf" th:value="${_csrf.token}">
@@ -61,14 +72,14 @@
             <a href="/login">Уже есть аккаунт? Войти</a>
         </div>
 
-
-
     </form>
 </div>
 </body>
 </html>
 
-
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -93,14 +104,10 @@
                 phoneInput.setCustomValidity("");
                 phoneError.style.display = "none";
             } else {
-                phoneInput.setCustomValidity("Номер телефона неверен");
+                phoneInput.setCustomValidity("Номер телефона неверен." +
+                    " Введите номер в формате +7 (999) 999-99-99");
                 phoneError.style.display = "block";
             }
         });
     });
 </script>
-
-
-
-
-

@@ -3,56 +3,37 @@ package com.example.fitlove.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "Instructors")
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode
 public class Instructors {
+
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name")
-    @NotBlank(message = "Name is required")
-    @Size(max = 60, message = "Name must not exceed 60 characters")
     private String name;
 
-    public Instructors() {
+    @Column(name = "is_blocked")
+    private boolean isBlocked = false;
+
+    public Instructors(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Instructors(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true; // Проверка на идентичность
-        if (!(o instanceof Instructors)) return false; // Проверка на класс
-        Instructors that = (Instructors) o; // Приведение типа
-        return id == that.id && Objects.equals(name, that.name); // Сравнение по полям
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name); // Генерация хеша
     }
 
     @Override
@@ -63,3 +44,4 @@ public class Instructors {
                 '}'; // Читаемое представление объекта
     }
 }
+

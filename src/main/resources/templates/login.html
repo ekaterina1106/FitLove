@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fitlove Fitness Club - Авторизация</title>
-<!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link rel="stylesheet" th:href="@{/static/css/style.css}" />
 </head>
 <body>
@@ -21,33 +21,43 @@
 </div>
 
 <div class="login-page">
-  <form action="/login" method="post" th:object="${client}">
+  <form action="/login" method="post" th:object="${loginDTO}">
 
     <h1>Авторизация</h1>
 
+    <!-- Поле для ввода email -->
     <div class="form-group">
-      <label for="email">Эл. почта:</label>
-      <input type="email" id="email" name="username" th:value="${client != null ? client.email : ''}" class="form-control" required />
+      <label for="username">Эл. почта:</label>
+      <input type="email" id="username" name="username" th:value="${loginDTO.email}" class="form-control" required />
       <div style="color: red" th:if="${emailError}" class="invalid-feedback">
         <span th:text="${emailError}"></span>
       </div>
     </div>
 
+    <!-- Поле для ввода пароля -->
     <div class="form-group">
       <label for="password">Пароль:</label>
-      <input type="password" id="password" name="password" class="form-control" required />
+      <input type="password" id="password" name="password" th:value="${loginDTO.password}" class="form-control" required />
       <div style="color: red" th:if="${passwordError}" class="invalid-feedback">
         <span th:text="${passwordError}"></span>
       </div>
     </div>
 
-    <div style="color: red" th:if="${errorMessage}">
-      <h2 th:text="${errorMessage}"></h2>
+
+    <!-- Сообщение об ошибке (неверные логин/пароль или блокировка) -->
+    <div th:if="${errorMessage}" class="alert alert-danger">
+      <span th:text="${errorMessage}"></span>
     </div>
 
+
+
+    <!-- CSRF token -->
     <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+
+    <!-- Кнопка отправки формы -->
     <input type="submit" value="Вход" class="login-button">
 
+    <!-- Ссылка на страницу регистрации -->
     <div class="login-links">
       <a href="/registration">Зарегистрироваться</a>
     </div>
@@ -62,4 +72,3 @@
 
 </body>
 </html>
-

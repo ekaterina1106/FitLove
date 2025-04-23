@@ -14,13 +14,15 @@ import java.util.List;
 
 @Repository
 public interface GroupClassesRepository extends JpaRepository<GroupClasses, Integer> {
+
     boolean existsByClassDateAndStartTime(LocalDate classDate, LocalTime startTime);
 
     List<GroupClasses> findByClassDateAfterOrderByClassDateAsc(LocalDate date);
 
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM GroupClasses gc WHERE gc.instructor.id = :instructorId")
-    void deleteByInstructorId(@Param("instructorId") int instructorId);
+    void deleteByInstructorId(int instructorId);
 
+    //    @Modifying
+//    @Transactional
+//    @Query("DELETE FROM GroupClasses gc WHERE gc.instructor.id = :instructorId")
+//    void deleteByInstructorId(@Param("instructorId") int instructorId);
 }

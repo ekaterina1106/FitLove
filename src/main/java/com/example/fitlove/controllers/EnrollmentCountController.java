@@ -65,26 +65,3 @@ public class EnrollmentCountController {
 }
 
 
-//
-//@Controller
-//@RequestMapping("/enrollment_count")
-//public class EnrollmentCountController {
-//
-//    private final EnrollmentsService enrollmentsService;
-//    private final ClientsService clientsService;
-//
-//    @Autowired
-//    public EnrollmentCountController(EnrollmentsService enrollmentsService, ClientsService clientsService) {
-//        this.enrollmentsService = enrollmentsService;
-//        this.clientsService = clientsService;
-//    }
-//
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @GetMapping("/enrollmentCount")
-//    public String showUpcomingClassesWithEnrollmentCount(Model model, Principal principal) {
-//        model.addAttribute("client", clientsService.getUserByPrincipal(principal));
-//        List<GroupClasses> upcomingClasses = enrollmentsService.getUpcomingClassesWithEnrollmentCount();
-//        model.addAttribute("upcomingClasses", upcomingClasses);
-//        return "/enrollment_count"; // Новый путь к шаблону
-//    }
-//}

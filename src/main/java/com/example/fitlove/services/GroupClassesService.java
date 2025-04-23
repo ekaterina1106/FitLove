@@ -1,5 +1,6 @@
 package com.example.fitlove.services;
 
+import com.example.fitlove.dto.GroupClassDTO;
 import com.example.fitlove.models.GroupClasses;
 import com.example.fitlove.models.Instructors;
 import com.example.fitlove.repositories.GroupClassesRepository;
@@ -90,6 +91,7 @@ public class GroupClassesService {
         groupClassesRepository.deleteById(groupClassId);
     }
 
+    // не для груп контроллер
     public List<LocalDate> getWeekDates() {
         // Возвращаем список дат на неделю начиная с сегодняшнего дня
         LocalDate startDate = LocalDate.now();
@@ -104,6 +106,7 @@ public class GroupClassesService {
         );
     }
 
+    // не для груп контроллер
     public List<String> getWeekDays(List<LocalDate> weekDates) {
         Locale russianLocale = new Locale("ru"); // Устанавливаем локаль на русский
         return weekDates.stream()
@@ -137,6 +140,8 @@ public class GroupClassesService {
         LocalDate today = LocalDate.now();
         return groupClassesRepository.findByClassDateAfterOrderByClassDateAsc(today);
     }
+
+
 
 
 

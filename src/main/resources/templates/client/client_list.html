@@ -9,7 +9,6 @@
     <div th:insert="~{blocks/header.html :: header}"></div>
 </header>
 <h1>Список клиентов</h1>
-<!--<a href="/clients/new">Добавить клиента</a>-->
 
 <table>
     <thead>
@@ -28,7 +27,19 @@
         <td th:text="${client.email}"></td>
         <td th:text="${client.phone}"></td>
         <td>
-<!--            <a th:href="@{/clients/{id}/edit(id=${client.id})}">Редактировать</a>-->
+            <!-- Условие для показа кнопки блокировки или разблокировки -->
+            <div th:if="${client.isBlocked}">
+                <!-- Если клиент заблокирован, показываем кнопку разблокировки -->
+                <form th:action="@{/clients/{id}/unblock(id=${client.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="button table-button">Разблокировать</button>
+                </form>
+            </div>
+            <div th:if="${!client.isBlocked}">
+                <!-- Если клиент не заблокирован, показываем кнопку блокировки -->
+                <form th:action="@{/clients/{id}/block(id=${client.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="button table-button">Блокировать</button>
+                </form>
+            </div>
             <form th:action="@{/clients/{id}/delete(id=${client.id})}" method="post" style="display:inline;">
                 <button type="submit" class="button table-button">Удалить</button>
             </form>
